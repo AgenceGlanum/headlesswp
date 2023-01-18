@@ -1,0 +1,16 @@
+{
+  "name": "jwardee/wp-mail-catcher",
+  "description": "",
+  "autoload": {
+    "psr-4": {
+      "WpMailCatcher\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=7.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "6.5.*",
+    "yoast/phpunit-polyfills": "^1.0"
+  }
+}

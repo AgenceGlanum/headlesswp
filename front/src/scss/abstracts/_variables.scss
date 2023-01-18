@@ -1,0 +1,40 @@
+//Fonts
+$fonts-path: '/fonts';
+$pictures-path: '/img';
+
+$icomoon-font-path: '/fonts/icomoon/fonts';
+
+// Colors
+$contrast: var(--contrast);
+$contrast-2: var(--contrast-2);
+$contrast-3: var(--contrast-3);
+$base: var(--base);
+$base-2: var(--base-2);
+$base-3: var(--base-3);
+$accent: var(--accent);
+
+$state-colors: (
+  'danger': #dc3545,
+  'warning': #ffc107,
+  'info': #17a2b8,
+  'success': #28a745
+);
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1440px,
+  fhd: 1900px
+);
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1320px,
+  fhd: 1440px
+);

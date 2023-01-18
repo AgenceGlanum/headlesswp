@@ -1,0 +1,31 @@
+### WordPress ###
+
+# Configuration
+wp-config.php
+
+# htaccess
+/.htaccess
+
+# ignore everything in the "wp-content" directory, except:
+# "mu-plugins", "plugins", "themes" directory
+wp-content/*
+!wp-content/mu-plugins/
+!wp-content/plugins/
+!wp-content/themes/
+
+# Example themes
+/wp-content/themes/twenty*/
+
+# Example plugin
+/wp-content/plugins/hello.php
+
+# Uploads
+/wp-content/uploads/*
+
+# ignore log files and databases
+*.log
+*.sql
+*.sqlite
+
+/node_modules
+/vendor
