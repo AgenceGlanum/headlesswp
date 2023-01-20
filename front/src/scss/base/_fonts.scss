@@ -3,6 +3,37 @@
 //
 // If you import with url, replace ';' by '%3b';
 // -----------------------------------------------------------------------------
-
+//Icomoon
 @import './static/fonts/icomoon/style.scss';
 
+//Merriweather
+@include font-face($fonts-path, 'Merriweather', 'Merriweather-Light', $weight: 300, $style: normal, $display: swap);
+@include font-face($fonts-path, 'Merriweather', 'Merriweather-LightItalic', $weight: 300, $style: italic, $display: swap);
+
+@include font-face($fonts-path, 'Merriweather', 'Merriweather-Regular', $weight: normal, $style: normal, $display: swap);
+@include font-face($fonts-path, 'Merriweather', 'Merriweather-Italic', $weight: normal, $style: italic, $display: swap);
+
+@include font-face($fonts-path, 'Merriweather', 'Merriweather-Bold', $weight: bold, $style: normal, $display: swap);
+@include font-face($fonts-path, 'Merriweather', 'Merriweather-BoldItalic', $weight: bold, $style: italic, $display: swap);
+
+@include font-face($fonts-path, 'Merriweather', 'Merriweather-Black', $weight: 900, $style: normal, $display: swap);
+@include font-face($fonts-path, 'Merriweather', 'Merriweather-BlackItalic', $weight: 900, $style: italic, $display: swap);
+
+//Roboto
+@include font-face($fonts-path, 'Roboto', 'Roboto-Thin', $weight: 100, $style: normal, $display: swap);
+@include font-face($fonts-path, 'Roboto', 'Roboto-ThinItalic', $weight: 100, $style: italic, $display: swap);
+
+@include font-face($fonts-path, 'Roboto', 'Roboto-Light', $weight: 300, $style: normal, $display: swap);
+@include font-face($fonts-path, 'Roboto', 'Roboto-LightItalic', $weight: 300, $style: italic, $display: swap);
+
+@include font-face($fonts-path, 'Roboto', 'Roboto-Regular', $weight: normal, $style: normal, $display: swap);
+@include font-face($fonts-path, 'Roboto', 'Roboto-Italic', $weight: normal, $style: italic, $display: swap);
+
+@include font-face($fonts-path, 'Roboto', 'Roboto-Medium', $weight: 500, $style: normal, $display: swap);
+@include font-face($fonts-path, 'Roboto', 'Roboto-MediumItalic', $weight: 500, $style: italic, $display: swap);
+
+@include font-face($fonts-path, 'Roboto', 'Roboto-Bold', $weight: bold, $style: normal, $display: swap);
+@include font-face($fonts-path, 'Roboto', 'Roboto-BoldItalic', $weight: bold, $style: italic, $display: swap);
+
+@include font-face($fonts-path, 'Roboto', 'Roboto-Black', $weight: 900, $style: normal, $display: swap);
+@include font-face($fonts-path, 'Roboto', 'Roboto-BlackItalic', $weight: 900, $style: italic, $display: swap);

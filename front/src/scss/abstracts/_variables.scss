@@ -4,14 +4,17 @@ $pictures-path: '/img';
 
 $icomoon-font-path: '/fonts/icomoon/fonts';
 
+$textFont: 'Roboto', sans-serif;;
+$titleFont: 'Merriweather', serif;;
+
 // Colors
-$contrast: var(--contrast);
-$contrast-2: var(--contrast-2);
-$contrast-3: var(--contrast-3);
-$base: var(--base);
-$base-2: var(--base-2);
-$base-3: var(--base-3);
-$accent: var(--accent);
+$contrast: #222;
+$contrast-2: #57575f;
+$contrast-3: #b2b2be;
+$base: #f0f0f0;
+$base-2: #f7f8fa;
+$base-3: #fff;
+$accent: #1d73be;
 
 $state-colors: (
   'danger': #dc3545,

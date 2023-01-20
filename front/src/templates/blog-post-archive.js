@@ -1,5 +1,10 @@
-import { graphql } from 'gatsby'
-import parse from 'html-react-parser'
+import React from "react"
+import { Link, graphql } from "gatsby"
+import parse from "html-react-parser"
+
+import Bio from "../components/bio"
+import Layout from "../components/layout"
+import Seo from "../components/seo"
 
 const BlogIndex = ({
   data,
@@ -13,7 +18,7 @@ const BlogIndex = ({
         <Seo title="All posts" />
         <Bio />
         <p>
-          No blog posts found. Add posts to your WordPress site and they'll
+          No blog posts found. Add posts to your WordPress site and they&#39;ll
           appear here!
         </p>
       </Layout>
@@ -26,7 +31,7 @@ const BlogIndex = ({
 
       <Bio />
 
-      <ol style={{ listStyle: 'none' }}>
+      <ol style={{ listStyle: "none" }}>
         {posts.map(post => {
           const title = post.title
 

@@ -3,29 +3,20 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: ['standard'],
+  extends: ["plugin:react/recommended", "prettier"],
   parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
     ecmaVersion: 12,
-    sourceType: 'module',
+    sourceType: "module",
   },
-  globals: {
-    jQuery: true,
-    wp: true, // wordpress libraries
-    wp_params: true // paramètres passé via l'enqueue du script
-  },
-  plugins: [
-    'unused-imports',
-    'simple-import-sort'
-  ],
+  plugins: ["react", "prettier"],
   rules: {
-    'object-shorthand': 0,
-    'space-before-function-paren': 'off',
-    'comma-dangle': ['error', 'only-multiline'],
-    'generator-star-spacing': ['error', { before: false, after: true }],
-    'unused-imports/no-unused-imports': 'warn',
-    'simple-import-sort/imports': 'error',
-    'simple-import-sort/exports': 'error',
-    'no-console': 'warn',
-    'operator-linebreak': ['error', 'before']
-  }
+    "prettier/prettier": "error",
+    "react/jsx-filename-extension": "off",
+    "react/prop-types": "off",
+    "react/require-default-props": "off",
+    "react/jsx-props-no-spreading": "off",
+  },
 }

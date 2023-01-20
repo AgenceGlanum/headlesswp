@@ -1,10 +1,16 @@
-import { graphql } from 'gatsby'
-import parse from 'html-react-parser'
+import React from "react"
+import { Link, graphql } from "gatsby"
+import { GatsbyImage } from "gatsby-plugin-image"
+import parse from "html-react-parser"
+
+import Bio from "../components/bio"
+import Layout from "../components/layout"
+import Seo from "../components/seo"
 
 const BlogPostTemplate = ({ data: { previous, next, post } }) => {
   const featuredImage = {
     data: post.featuredImage?.node?.localFile?.childImageSharp?.gatsbyImageData,
-    alt: post.featuredImage?.node?.alt || '',
+    alt: post.featuredImage?.node?.alt || "",
   }
 
   return (
@@ -45,10 +51,10 @@ const BlogPostTemplate = ({ data: { previous, next, post } }) => {
       <nav className="blog-post-nav">
         <ul
           style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'space-between',
-            listStyle: 'none',
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "space-between",
+            listStyle: "none",
             padding: 0,
           }}
         >
