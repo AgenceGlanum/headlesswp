@@ -1,0 +1,16 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+red='\033[0;31m'
+green='\033[0;32m'
+yellow='\033[0;33m'
+blue='\033[0;34m'
+no_color='\033[0m'
+
+echo -e ""
+echo -e "${red}################################################################################################################"
+echo -e "#    ❗❗❗  N'oubliez pas de faire un build après le changement de branche (npm run prod && npm run dev)  ❗❗❗    #"
+echo -e "################################################################################################################${no_color}"
+#npm run build
+
+

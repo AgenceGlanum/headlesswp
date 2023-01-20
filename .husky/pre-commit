@@ -1,0 +1,22 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+red='\033[0;31m'
+green='\033[0;32m'
+yellow='\033[0;33m'
+blue='\033[0;34m'
+no_color='\033[0m'
+
+# echo ""
+# echo "=================== Lint Staged ==================="
+# echo ""
+# npx --no-install lint-staged            # Par exemple peux formatter les fichiers avec Prettier
+echo ""
+echo -e "${blue}=================== Git Precommit Checks ===================${no_color}"
+echo ""
+
+exec >/dev/tty 2>&1 # https://github.com/typicode/husky/issues/968#issuecomment-1176848345
+
+npx --no-install git-precommit-checks  # Vérifie si le code est propre
+npx --no-install lint-staged # VLint le SCSS et JS
+
