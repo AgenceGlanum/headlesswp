@@ -18,5 +18,3 @@ echo ""
 exec >/dev/tty 2>&1 # https://github.com/typicode/husky/issues/968#issuecomment-1176848345
 
 npx --no-install git-precommit-checks  # Vérifie si le code est propre
-npx --no-install lint-staged # VLint le SCSS et JS
-
