@@ -6,7 +6,7 @@
 // Clear inner floats
 //
 .clearfix::after {
-  content: '';
+  content: "";
   display: table;
   clear: both;
 }

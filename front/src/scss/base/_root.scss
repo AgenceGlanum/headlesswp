@@ -8,13 +8,20 @@
     --color-rgb-#{$state-color}: #{hexToRGBString($value)};
   }
 
+  @each $color, $value in $colors {
+    --color-#{$color}: #{$value};
+    --color-rgb-#{$color}: #{hexToRGBString($value)};
+  }
+
   @each $bp, $value in $grid-breakpoints {
     --breakpoint-#{$bp}: #{$value};
+  }
+
+  @each $font, $value in $fonts {
+    --font-#{$font}: '#{map-get($fonts, $font, "name")}', #{map-get($fonts, $font, "serif")};
   }
 
   @media (prefers-reduced-motion: reduce) {
     --nomotion: none;
   }
-
-  --scrollbarsize: 17px;
 }

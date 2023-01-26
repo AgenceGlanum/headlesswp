@@ -1,7 +1,7 @@
-import React from "react"
-import { Link, graphql } from "gatsby"
+import { graphql, Link } from "gatsby"
 import { GatsbyImage } from "gatsby-plugin-image"
 import parse from "html-react-parser"
+import React from "react"
 
 import Bio from "../components/bio"
 import Layout from "../components/layout"
@@ -10,36 +10,24 @@ import Seo from "../components/seo"
 const BlogPostTemplate = ({ data: { previous, next, post } }) => {
   const featuredImage = {
     data: post.featuredImage?.node?.localFile?.childImageSharp?.gatsbyImageData,
-    alt: post.featuredImage?.node?.alt || "",
+    alt: post.featuredImage?.node?.alt || ""
   }
 
   return (
     <Layout>
       <Seo title={post.title} description={post.excerpt} />
 
-      <article
-        className="blog-post"
-        itemScope
-        itemType="http://schema.org/Article"
-      >
+      <article className="blog-post" itemScope itemType="http://schema.org/Article">
         <header>
           <h1 itemProp="headline">{parse(post.title)}</h1>
 
           <p>{post.date}</p>
 
           {/* if we have a featured image for this post let's display it */}
-          {featuredImage?.data && (
-            <GatsbyImage
-              image={featuredImage.data}
-              alt={featuredImage.alt}
-              style={{ marginBottom: 50 }}
-            />
-          )}
+          {featuredImage?.data && <GatsbyImage image={featuredImage.data} alt={featuredImage.alt} style={{ marginBottom: 50 }} />}
         </header>
 
-        {!!post.content && (
-          <section itemProp="articleBody">{parse(post.content)}</section>
-        )}
+        {!!post.content && <section itemProp="articleBody">{parse(post.content)}</section>}
 
         <hr />
 
@@ -55,7 +43,7 @@ const BlogPostTemplate = ({ data: { previous, next, post } }) => {
             flexWrap: "wrap",
             justifyContent: "space-between",
             listStyle: "none",
-            padding: 0,
+            padding: 0
           }}
         >
           <li>
@@ -82,11 +70,7 @@ const BlogPostTemplate = ({ data: { previous, next, post } }) => {
 export default BlogPostTemplate
 
 export const pageQuery = graphql`
-  query BlogPostById(
-    $id: String!
-    $previousPostId: String
-    $nextPostId: String
-  ) {
+  query BlogPostById($id: String!, $previousPostId: String, $nextPostId: String) {
     post: wpPost(id: { eq: $id }) {
       id
       excerpt
@@ -98,11 +82,7 @@ export const pageQuery = graphql`
           altText
           localFile {
             childImageSharp {
-              gatsbyImageData(
-                quality: 100
-                placeholder: TRACED_SVG
-                layout: FULL_WIDTH
-              )
+              gatsbyImageData(quality: 100, placeholder: TRACED_SVG, layout: FULL_WIDTH)
             }
           }
         }
