@@ -1,15 +1,12 @@
-import React from "react"
-import { Link, graphql } from "gatsby"
+import { graphql, Link } from "gatsby"
 import parse from "html-react-parser"
+import React from "react"
 
 import Bio from "../components/bio"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 
-const BlogIndex = ({
-  data,
-  pageContext: { nextPagePath, previousPagePath },
-}) => {
+const BlogIndex = ({ data, pageContext: { nextPagePath, previousPagePath } }) => {
   const posts = data.allWpPost.nodes
 
   if (!posts.length) {
@@ -17,10 +14,7 @@ const BlogIndex = ({
       <Layout isHomePage>
         <Seo title="All posts" />
         <Bio />
-        <p>
-          No blog posts found. Add posts to your WordPress site and they&#39;ll
-          appear here!
-        </p>
+        <p>No blog posts found. Add posts to your WordPress site and they&#39;ll appear here!</p>
       </Layout>
     )
   }
@@ -37,11 +31,7 @@ const BlogIndex = ({
 
           return (
             <li key={post.uri}>
-              <article
-                className="post-list-item"
-                itemScope
-                itemType="http://schema.org/Article"
-              >
+              <article className="post-list-item" itemScope itemType="http://schema.org/Article">
                 <header>
                   <h2>
                     <Link to={post.uri} itemProp="url">

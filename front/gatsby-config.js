@@ -1,3 +1,5 @@
+const autoprefixer = require("autoprefixer")
+
 /**
  * 👋 Hey there!
  * This file is the starting point for your new WordPress/Gatsby site! 🚀
@@ -16,6 +18,9 @@ module.exports = {
   plugins: [
     {
       resolve: `gatsby-plugin-sass`,
+      options: {
+        postCssPlugins: [autoprefixer()]
+      }
     },
     {
       /**
@@ -29,8 +34,8 @@ module.exports = {
       resolve: `gatsby-source-wordpress`,
       options: {
         // the only required plugin option for WordPress is the GraphQL url.
-        url: process.env.WPGRAPHQL_URL || `http://app.headlesswp.local/graphql`,
-      },
+        url: process.env.WPGRAPHQL_URL || `http://app.headlesswp.local/graphql`
+      }
     },
 
     /**
@@ -43,8 +48,8 @@ module.exports = {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `assets`,
-        path: `${__dirname}/content/assets`,
-      },
+        path: `${__dirname}/content/assets`
+      }
     },
 
     /**
@@ -65,17 +70,17 @@ module.exports = {
         background_color: `#ffffff`,
         theme_color: `#663399`,
         display: `minimal-ui`,
-        icon: `content/assets/gatsby-icon.png`,
-      },
+        icon: `content/assets/gatsby-icon.png`
+      }
     },
 
     // See https://www.gatsbyjs.com/plugins/gatsby-plugin-react-helmet/?=gatsby-plugin-react-helmet
-    `gatsby-plugin-react-helmet`,
+    `gatsby-plugin-react-helmet`
 
     /**
      * this (optional) plugin enables Progressive Web App + Offline functionality
      * To learn more, visit: https://gatsby.dev/offline
      */
     // `gatsby-plugin-offline`,
-  ],
+  ]
 }

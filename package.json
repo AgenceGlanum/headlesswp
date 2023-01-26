@@ -16,6 +16,17 @@
     "url": "https://github.com/quentin-glanum/headlesswp/issues"
   },
   "homepage": "https://github.com/quentin-glanum/headlesswp#readme",
+  "lint-staged": {
+    "front/src/scss/**/*.scss": [
+      "npx stylelint --config .stylelintrc.json --allow-empty-input --ignore-path .stylelintignore --fix",
+      "npx prettier --config .prettierrc.js --ignore-path .prettierignore --write",
+      "npx stylelint --config .stylelintrc.json --allow-empty-input --ignore-path .stylelintignore --fix"
+    ],
+    "front/src/js/**/*.js": [
+      "npx prettier --config .prettierrc.js --ignore-path .prettierignore --write",
+      "npx eslint --config .eslintrc.js --ignore-path .eslintignore --fix"
+    ]
+  },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",

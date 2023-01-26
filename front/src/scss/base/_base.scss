@@ -18,3 +18,8 @@
 html {
   box-sizing: border-box;
 }
+
+body {
+  position: relative;
+  background-color: var(--color-white);
+}
