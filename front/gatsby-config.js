@@ -78,10 +78,7 @@ module.exports = {
         display: `minimal-ui`,
         icon: `content/assets/gatsby-icon.png`
       }
-    },
-
-    // See https://www.gatsbyjs.com/plugins/gatsby-plugin-react-helmet/?=gatsby-plugin-react-helmet
-    `gatsby-plugin-react-helmet`
+    }
 
     /**
      * this (optional) plugin enables Progressive Web App + Offline functionality

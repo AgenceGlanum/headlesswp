@@ -87,6 +87,25 @@ export const pageQuery = graphql`
           }
         }
       }
+      seo {
+        title
+        opengraphTitle
+        opengraphType
+        opengraphUrl
+        opengraphSiteName
+        opengraphPublishedTime
+        opengraphDescription
+        metaRobotsNoindex
+        metaRobotsNofollow
+        metaDesc
+        canonical
+        opengraphImage {
+          mediaItemUrl
+        }
+        schema {
+          raw
+        }
+      }
     }
     previous: wpPost(id: { eq: $previousPostId }) {
       uri

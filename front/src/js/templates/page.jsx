@@ -8,7 +8,7 @@ const PageTemplate = ({ data: { page } }) => {
   return <Layout></Layout>
 }
 
-export const Head = ({ data: { page } }) => <Seo title={page.title} />
+export const Head = ({ data: { page } }) => <Seo title={page.title} seo={page.seo} />
 
 export default PageTemplate
 
@@ -17,6 +17,25 @@ export const pageQuery = graphql`
     page: wpPage(id: { eq: $id }) {
       id
       title
+      seo {
+        title
+        opengraphTitle
+        opengraphType
+        opengraphUrl
+        opengraphSiteName
+        opengraphPublishedTime
+        opengraphDescription
+        metaRobotsNoindex
+        metaRobotsNofollow
+        metaDesc
+        canonical
+        opengraphImage {
+          mediaItemUrl
+        }
+        schema {
+          raw
+        }
+      }
     }
   }
 `
