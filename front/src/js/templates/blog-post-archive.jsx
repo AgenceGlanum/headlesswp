@@ -3,8 +3,8 @@ import parse from "html-react-parser"
 import React from "react"
 
 import Bio from "../components/bio"
-import Layout from "../components/layout"
 import Seo from "../components/seo"
+import Layout from "../layout"
 
 const BlogIndex = ({ data, pageContext: { nextPagePath, previousPagePath } }) => {
   const posts = data.allWpPost.nodes

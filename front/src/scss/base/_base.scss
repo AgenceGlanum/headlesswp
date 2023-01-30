@@ -17,9 +17,38 @@
 //Set up a decent box model on the root element
 html {
   box-sizing: border-box;
+  height: 100%;
 }
 
 body {
   position: relative;
+  max-width: #{variable-get-last-item($grid-breakpoints)};
+  min-height: 100%;
+  padding-right: var(--gutter);
+  padding-left: var(--gutter);
   background-color: var(--color-white);
+
+  &,
+  & > #___gatsby,
+  & > #___gatsby > #gatsby-focus-wrapper {
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-rows: 1fr;
+  }
+
+  & > #___gatsby,
+  & > #___gatsby > #gatsby-focus-wrapper,
+  & > #___gatsby > #gatsby-focus-wrapper > .global-wrapper {
+    grid-row: span 1;
+  }
+
+  & > #___gatsby {
+    & > #gatsby-focus-wrapper {
+      .global-wrapper {
+        display: grid;
+        grid-auto-flow: row;
+        grid-template-rows: auto 1fr auto;
+      }
+    }
+  }
 }

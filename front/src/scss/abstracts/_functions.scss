@@ -73,3 +73,13 @@
 @function hexToRGBString($hexColor) {
   @return "#{red($hexColor)},#{green($hexColor)},#{blue($hexColor)}";
 }
+
+@function variable-get-last-item($group-name) {
+  @each $key, $value in $group-name {
+    $var: index(($group-name), ($key $value));
+
+    @if $var == length($group-name) {
+      @return $value;
+    }
+  }
+}
