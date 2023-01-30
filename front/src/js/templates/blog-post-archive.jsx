@@ -12,7 +12,6 @@ const BlogIndex = ({ data, pageContext: { nextPagePath, previousPagePath } }) =>
   if (!posts.length) {
     return (
       <Layout isHomePage>
-        <Seo title="All posts" />
         <Bio />
         <p>No blog posts found. Add posts to your WordPress site and they&#39;ll appear here!</p>
       </Layout>
@@ -21,8 +20,6 @@ const BlogIndex = ({ data, pageContext: { nextPagePath, previousPagePath } }) =>
 
   return (
     <Layout isHomePage>
-      <Seo title="All posts" />
-
       <Bio />
 
       <ol style={{ listStyle: "none" }}>
@@ -58,10 +55,12 @@ const BlogIndex = ({ data, pageContext: { nextPagePath, previousPagePath } }) =>
   )
 }
 
+export const Head = () => <Seo title="All posts" />
+
 export default BlogIndex
 
 export const pageQuery = graphql`
-  query WordPressPostArchive($offset: Int!, $postsPerPage: Int!) {
+  query WordPressPostArchive($postsPerPage: Int!, $offset: Int!) {
     allWpPost(sort: { date: DESC }, limit: $postsPerPage, skip: $offset) {
       nodes {
         excerpt

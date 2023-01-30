@@ -12,20 +12,45 @@ const chunk = require(`lodash/chunk`)
  * See https://www.gatsbyjs.com/docs/node-apis/#createPages for more info.
  */
 exports.createPages = async gatsbyUtilities => {
-  // Query our posts from the GraphQL server
-  const posts = await getPosts(gatsbyUtilities)
-
-  // If there are no posts in WordPress, don't do anything
-  if (!posts.length) {
-    return
+  // Query our Pages from the GraphQL server
+  const pages = await getPages(gatsbyUtilities)
+  if (pages.length) {
+    await createPages({ pages, gatsbyUtilities })
   }
 
-  // If there are posts, create pages for them
-  await createIndividualBlogPostPages({ posts, gatsbyUtilities })
-
-  // And a paginated archive
-  await createBlogPostArchive({ posts, gatsbyUtilities })
+  // Query our posts from the GraphQL server
+  const posts = await getPosts(gatsbyUtilities)
+  if (posts.length) {
+    await createIndividualBlogPostPages({ posts, gatsbyUtilities })
+    await createBlogPostArchive({ posts, gatsbyUtilities })
+  }
 }
+
+/**
+ * This function creates all the pages in this site
+ */
+const createPages = async ({ pages, gatsbyUtilities }) =>
+  Promise.all(
+    pages.map(({ page }) =>
+      gatsbyUtilities.actions.createPage({
+        // Use the WordPress uri as the Gatsby page path
+        // This is a good idea so that internal links and menus work 👍
+        path: page.uri,
+
+        // use the blog post template as the page component
+        component: path.resolve(`./src/js/templates/page.jsx`),
+
+        // `context` is available in the template as a prop and
+        // as a variable in GraphQL.
+        context: {
+          // we need to add the post id here
+          // so our blog post template knows which blog post
+          // the current page is (when you open it in a browser)
+          id: page.id
+        }
+      })
+    )
+  )
 
 /**
  * This function creates all the individual blog pages in this site
@@ -111,7 +136,7 @@ async function createBlogPostArchive({ posts, gatsbyUtilities }) {
           offset: index * postsPerPage,
 
           // We need to tell the template how many posts to display too
-          postsPerPage,
+          postsPerPage: postsPerPage,
 
           nextPagePath: getPagePath(pageNumber + 1),
           previousPagePath: getPagePath(pageNumber - 1)
@@ -155,4 +180,26 @@ async function getPosts({ graphql, reporter }) {
   }
 
   return graphqlResult.data.allWpPost.edges
+}
+
+async function getPages({ graphql, reporter }) {
+  const graphqlResult = await graphql(/* GraphQL */ `
+    query WpPages {
+      allWpPage {
+        edges {
+          page: node {
+            id
+            uri
+          }
+        }
+      }
+    }
+  `)
+
+  if (graphqlResult.errors) {
+    reporter.panicOnBuild("There was an error loading your blog posts", graphqlResult.errors)
+    return
+  }
+
+  return graphqlResult.data.allWpPage.edges
 }

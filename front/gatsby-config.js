@@ -17,6 +17,12 @@ module.exports = {
    */
   plugins: [
     {
+      resolve: `gatsby-plugin-page-creator`,
+      options: {
+        path: `${__dirname}/src/js/pages`
+      }
+    },
+    {
       resolve: `gatsby-plugin-sass`,
       options: {
         postCssPlugins: [autoprefixer()]
