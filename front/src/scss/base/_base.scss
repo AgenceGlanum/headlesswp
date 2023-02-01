@@ -24,8 +24,6 @@ body {
   position: relative;
   max-width: #{variable-get-last-item($grid-breakpoints)};
   min-height: 100%;
-  padding-right: var(--gutter);
-  padding-left: var(--gutter);
   background-color: var(--color-white);
 
   &,

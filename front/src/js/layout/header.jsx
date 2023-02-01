@@ -6,7 +6,7 @@ import Title from '../components/header/title'
 
 const Header = () => {
     return (
-        <header>
+        <header className="header">
             <Title></Title>
             <Logo></Logo>
             <MenuPrimary></MenuPrimary>

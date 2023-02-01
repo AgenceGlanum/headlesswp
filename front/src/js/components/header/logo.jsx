@@ -24,9 +24,9 @@ const Logo = () => {
         const { title, sourceUrl, altText, mediaDetails } = logoElement.allWpMediaItem.edges[0].node
 
         return (
-            <>
+            <div className="header__logo-wrapper">
                 <img src={sourceUrl} title={title} alt={altText} width={mediaDetails.width} height={mediaDetails.height} />
-            </>
+            </div>
         )
     } else {
         return ''

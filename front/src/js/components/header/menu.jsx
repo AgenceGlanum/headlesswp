@@ -24,11 +24,15 @@ const MenuPrimary = () => {
         <>
             {menuList ? (
                 <nav>
-                    {menuList.map(element => (
-                        <a key={element.id} href={element.path} target={element.target} title={element.title}>
-                            {element.label}
-                        </a>
-                    ))}
+                    <ul>
+                        {menuList.map(element => (
+                            <li key={element.id}>
+                                <a href={element.path} target={element.target} title={element.title}>
+                                    {element.label}
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
                 </nav>
             ) : null}
         </>

@@ -1,0 +1,7 @@
+// Example code
+.main {
+  @include blockDevHighlight('main content');
+
+  padding-right: var(--gutter);
+  padding-left: var(--gutter);
+}

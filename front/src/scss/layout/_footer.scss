@@ -1,3 +1,13 @@
 // -----------------------------------------------------------------------------
 // This file contains all styles related to the footer of the site/application.
 // -----------------------------------------------------------------------------
+
+// Example code
+.footer {
+  @include blockDevHighlight('footer');
+
+  display: flex;
+  justify-content: space-between;
+  padding-right: var(--gutter);
+  padding-left: var(--gutter);
+}
