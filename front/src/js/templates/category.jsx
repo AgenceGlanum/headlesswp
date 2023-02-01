@@ -60,7 +60,7 @@ export const Head = () => <Seo title="All posts" />
 export default BlogCategoryIndex
 
 export const pageQuery = graphql`
-    query WordPressPostArchive($postsPerPage: Int!, $offset: Int!, $termID: Int!) {
+    query WordPressPostCategory($postsPerPage: Int!, $offset: Int!, $termID: Int!) {
         allWpPost(sort: { date: DESC }, limit: $postsPerPage, skip: $offset, filter: { terms: { nodes: { elemMatch: { id: {}, termTaxonomyId: { eq: $termID } } } } }) {
             nodes {
                 excerpt
