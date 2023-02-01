@@ -22,6 +22,12 @@ exports.createPages = async gatsbyUtilities => {
         await createIndividualBlogPostPages({ posts, gatsbyUtilities })
         await createBlogPostArchive({ posts, gatsbyUtilities })
     }
+
+    // Query our categories from the GraphQL server
+    const categories = await getCategories(gatsbyUtilities)
+    if (categories.length) {
+        await createCategoryPages({ categories, gatsbyUtilities })
+    }
 }
 
 /*
@@ -153,7 +159,7 @@ async function createBlogPostArchive({ posts, gatsbyUtilities }) {
                     // we want the first page to be "/" and any additional pages
                     // to be numbered.
                     // "/blog/2" for example
-                    return page === 1 ? '/' : '/blog/${page}'
+                    return page === 1 ? '/' : `/blog/${page}`
                 }
 
                 return null
@@ -184,4 +190,104 @@ async function createBlogPostArchive({ posts, gatsbyUtilities }) {
             })
         })
     )
+}
+
+/*
+ * Generate categories
+ * */
+async function createCategoryPages({ categories, gatsbyUtilities }) {
+    const graphqlResult = await gatsbyUtilities.graphql(/* GraphQL */ `
+        {
+            wp {
+                readingSettings {
+                    postsPerPage
+                }
+            }
+        }
+    `)
+
+    const { postsPerPage } = graphqlResult.data.wp.readingSettings
+
+    return Promise.all(
+        categories.map(async (_category, index) => {
+            const postsChunkedIntoArchivePages = chunk(_category.category.posts.nodes, postsPerPage)
+            const totalPages = postsChunkedIntoArchivePages.length
+
+            Promise.all(
+                postsChunkedIntoArchivePages.map(async (_posts, index) => {
+                    const pageNumber = index + 1
+
+                    const getPagePath = page => {
+                        if (page > 0 && page <= totalPages) {
+                            return page === 1 ? _category.category.uri : `${_category.category.uri}${page}`
+                        }
+
+                        return null
+                    }
+
+                    // createPage is an action passed to createPages
+                    // See https://www.gatsbyjs.com/docs/actions#createPage for more info
+                    await gatsbyUtilities.actions.createPage({
+                        path: getPagePath(pageNumber),
+
+                        // use the blog post archive template as the page component
+                        component: path.resolve('./src/js/templates/blog-post-category.jsx'),
+
+                        // `context` is available in the template as a prop and
+                        // as a variable in GraphQL.
+                        context: {
+                            // the index of our loop is the offset of which posts we want to display
+                            // so for page 1, 0 * 10 = 0 offset, for page 2, 1 * 10 = 10 posts offset,
+                            // etc
+                            offset: index * postsPerPage,
+                            termID: _category.category.termTaxonomyId,
+
+                            // We need to tell the template how many posts to display too
+                            postsPerPage: postsPerPage,
+
+                            nextPagePath: getPagePath(pageNumber + 1),
+                            previousPagePath: getPagePath(pageNumber - 1)
+                        }
+                    })
+                })
+            )
+        })
+    )
+}
+
+// Fetch categories
+async function getCategories({ graphql, reporter }) {
+    const graphqlResult = await graphql(/* GraphQL */ `
+        query WpCategories {
+            allWpCategory {
+                edges {
+                    previous {
+                        id
+                    }
+                    category: node {
+                        id
+                        name
+                        uri
+                        slug
+                        termTaxonomyId
+                        posts {
+                            nodes {
+                                id
+                            }
+                        }
+                    }
+                    next {
+                        id
+                    }
+                }
+            }
+        }
+    `)
+
+    if (graphqlResult.errors) {
+        reporter.panicOnBuild('There was an error loading your blog posts', graphqlResult.errors)
+        return
+    }
+
+    return graphqlResult.data.allWpCategory.edges
 }

@@ -12,6 +12,7 @@ const BlogPostTemplate = ({ data: { previous, next, post } }) => {
         data: post.featuredImage?.node?.localFile?.childImageSharp?.gatsbyImageData,
         alt: post.featuredImage?.node?.alt || ''
     }
+    const categories = post.categories.nodes
 
     return (
         <Layout>
@@ -20,6 +21,16 @@ const BlogPostTemplate = ({ data: { previous, next, post } }) => {
                     <h1 itemProp="headline">{parse(post.title)}</h1>
 
                     <p>{post.date}</p>
+
+                    {categories.length && (
+                        <ul>
+                            {categories.map(element => (
+                                <li key={element.id}>
+                                    <a href={element.uri}>{element.name}</a>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
 
                     {/* if we have a featured image for this post let's display it */}
                     {featuredImage?.data && <GatsbyImage image={featuredImage.data} alt={featuredImage.alt} style={{ marginBottom: 50 }} />}
@@ -77,6 +88,14 @@ export const pageQuery = graphql`
             content
             title
             date(formatString: "MMMM DD, YYYY")
+            categories {
+                nodes {
+                    id
+                    taxonomyName
+                    name
+                    uri
+                }
+            }
             featuredImage {
                 node {
                     altText

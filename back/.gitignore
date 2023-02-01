@@ -29,3 +29,4 @@ wp-content/*
 
 /node_modules
 /vendor
+/wp-content/plugins/fakerpress
