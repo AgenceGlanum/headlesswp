@@ -37,9 +37,9 @@
     font-family: quote($font-name);
     font-style: $style;
     font-weight: $weight;
-    src: url("#{$font-path}/#{$font-name}/#{$file-name}.ttf") format("truetype");
-    src: url("#{$font-path}/#{$font-name}/#{$file-name}.eot") format("embedded-opentype"), url("#{$font-path}/#{$font-name}/#{$file-name}.eotiefix") format("embedded-opentype"),
-      url("#{$font-path}/#{$font-name}/#{$file-name}.woff") format("woff"), url("#{$font-path}/#{$font-name}/#{$file-name}.svg#{$font-name}") format("svg");
+    src: url('#{$font-path}/#{$font-name}/#{$file-name}.ttf') format('truetype');
+    src: url('#{$font-path}/#{$font-name}/#{$file-name}.eot') format('embedded-opentype'), url('#{$font-path}/#{$font-name}/#{$file-name}.eotiefix') format('embedded-opentype'),
+      url('#{$font-path}/#{$font-name}/#{$file-name}.woff') format('woff'), url('#{$font-path}/#{$font-name}/#{$file-name}.svg#{$font-name}') format('svg');
     font-display: $display;
   }
 }

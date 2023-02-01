@@ -18,7 +18,7 @@
   }
 
   @each $font, $value in $fonts {
-    --font-#{$font}: '#{map-get($fonts, $font, "name")}', #{map-get($fonts, $font, "serif")};
+    --font-#{$font}: '#{map-get($fonts, $font, "name")}', #{map-get($fonts, $font, 'serif')};
   }
 
   @media (prefers-reduced-motion: reduce) {

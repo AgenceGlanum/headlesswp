@@ -2,11 +2,11 @@
 // This file contains all application-wide Sass functions.
 // -----------------------------------------------------------------------------
 @function get-unit($value) {
-  @return str-slice($value * 0 + "", 2, -1);
+  @return str-slice($value * 0 + '', 2, -1);
 }
 
 @function strip-unit($number) {
-  @if type-of($number) == "number" and not unitless($number) {
+  @if type-of($number) == 'number' and not unitless($number) {
     $temp: $number * 0 + 1;
 
     @return calc($number / ($temp));
@@ -21,7 +21,7 @@
 
 @function min-max-interpolation($min-value, $max-value, $min-breakpoint, $max-breakpoint) {
   // Convert en rem si la valeur est en pixels
-  @if get-unit($min-value) == "px" {
+  @if get-unit($min-value) == 'px' {
     $min-value: calculateRem(strip-unit($min-value));
   }
   // Convert en rem si la valeur n'a pas d'unité
@@ -29,7 +29,7 @@
     $min-value: calculateRem($min-value);
   }
 
-  @if get-unit($max-value) == "px" {
+  @if get-unit($max-value) == 'px' {
     $max-value: calculateRem(strip-unit($max-value));
   }
 
@@ -37,7 +37,7 @@
     $max-value: calculateRem($max-value);
   }
 
-  @if get-unit($min-breakpoint) == "px" {
+  @if get-unit($min-breakpoint) == 'px' {
     $min-breakpoint: calculateRem(strip-unit($min-breakpoint));
   }
 
@@ -45,7 +45,7 @@
     $min-breakpoint: calculateRem($min-breakpoint);
   }
 
-  @if get-unit($max-breakpoint) == "px" {
+  @if get-unit($max-breakpoint) == 'px' {
     $max-breakpoint: calculateRem(strip-unit($max-breakpoint));
   }
 
@@ -54,7 +54,7 @@
   }
 
   $factor: calc(1 / ($max-breakpoint - $min-breakpoint) * ($max-value - $min-value));
-  $calc-value: unquote("#{$min-value - ($min-breakpoint * $factor)} + #{100vw * $factor}");
+  $calc-value: unquote('#{$min-value - ($min-breakpoint * $factor)} + #{100vw * $factor}');
 
   @return clamp(#{if($min-value > $max-value, $max-value, $min-value)}, #{$calc-value}, #{if($min-value > $max-value, $min-value, $max-value)});
 }
@@ -71,7 +71,7 @@
 }
 
 @function hexToRGBString($hexColor) {
-  @return "#{red($hexColor)},#{green($hexColor)},#{blue($hexColor)}";
+  @return '#{red($hexColor)},#{green($hexColor)},#{blue($hexColor)}';
 }
 
 @function variable-get-last-item($group-name) {

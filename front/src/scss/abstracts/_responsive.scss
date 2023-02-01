@@ -1,8 +1,4 @@
-// -----------------------------------------------------------------------------
-// This file contains all application-wide Sass responsive functions.
-// -----------------------------------------------------------------------------
-
-// Breakpoint viewport sizes and media queries.
+// Breakpoint viewport sizes, media queries and container queries.
 //
 // Breakpoints are defined as a map of (name: minimum width), order from small to large:
 //
@@ -61,7 +57,7 @@
 //    >> breakpoint-infix(sm, (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px))
 //    "-sm"
 @function breakpoint-infix($name, $breakpoints: $grid-breakpoints) {
-  @return if(breakpoint-min($name, $breakpoints) == null, "", "-#{$name}");
+  @return if(breakpoint-min($name, $breakpoints) == null, '', '-#{$name}');
 }
 
 // Media of at least the minimum breakpoint width. No query for the smallest breakpoint.
@@ -78,6 +74,20 @@
   }
 }
 
+// Container of at least the minimum breakpoint width. No query for the smallest breakpoint.
+// Makes the @content apply to the given breakpoint and wider.
+@mixin container-breakpoint-up($parent-container-name, $name, $breakpoints: $grid-breakpoints) {
+  $min: breakpoint-min($name, $breakpoints);
+
+  @if $min {
+    @container #{$parent-container-name} (min-width: #{$min}) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
 // Media of at most the maximum breakpoint width. No query for the largest breakpoint.
 // Makes the @content apply to the given breakpoint and narrower.
 @mixin media-breakpoint-down($name, $breakpoints: $grid-breakpoints) {
@@ -85,6 +95,20 @@
 
   @if $max {
     @media (max-width: $max) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
+// Container of at least the minimum breakpoint width. No query for the smallest breakpoint.
+// Makes the @content apply to the given breakpoint and wider.
+@mixin container-breakpoint-down($parent-container-name, $name, $breakpoints: $grid-breakpoints) {
+  $max: breakpoint-max($name, $breakpoints);
+
+  @if $max {
+    @container #{$parent-container-name} (max-width: #{$max}) {
       @content;
     }
   } @else {
@@ -113,6 +137,27 @@
   }
 }
 
+// Container that spans multiple breakpoint widths.
+// Makes the @content apply between the min and max breakpoints
+@mixin container-breakpoint-between($parent-container-name, $lower, $upper, $breakpoints: $grid-breakpoints) {
+  $min: breakpoint-min($lower, $breakpoints);
+  $max: breakpoint-max($upper, $breakpoints);
+
+  @if $min != null and $max != null {
+    @container #{$parent-container-name} (min-width: #{$min}) and (max-width: #{$max}) {
+      @content;
+    }
+  } @else if $max == null {
+    @include container-breakpoint-up($lower, $breakpoints) {
+      @content;
+    }
+  } @else if $min == null {
+    @include container-breakpoint-down($upper, $breakpoints) {
+      @content;
+    }
+  }
+}
+
 // Media between the breakpoint's minimum and maximum widths.
 // No minimum for the smallest breakpoint, and no maximum for the largest one.
 // Makes the @content apply only to the given breakpoint, not viewports any wider or narrower.
@@ -131,6 +176,29 @@
     }
   } @else if $min == null {
     @include media-breakpoint-down($next, $breakpoints) {
+      @content;
+    }
+  }
+}
+
+// Container between the breakpoint's minimum and maximum widths.
+// No minimum for the smallest breakpoint, and no maximum for the largest one.
+// Makes the @content apply only to the given breakpoint, not viewports any wider or narrower.
+@mixin container-breakpoint-only($parent-container-name, $name, $breakpoints: $grid-breakpoints) {
+  $min: breakpoint-min($name, $breakpoints);
+  $next: breakpoint-next($name, $breakpoints);
+  $max: breakpoint-max($next);
+
+  @if $min != null and $max != null {
+    @container #{$parent-container-name} (min-width: #{$min}) and (max-width: #{$max}) {
+      @content;
+    }
+  } @else if $max == null {
+    @include container-breakpoint-up($name, $breakpoints) {
+      @content;
+    }
+  } @else if $min == null {
+    @include container-breakpoint-down($next, $breakpoints) {
       @content;
     }
   }

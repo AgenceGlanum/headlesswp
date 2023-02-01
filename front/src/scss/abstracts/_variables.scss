@@ -1,37 +1,37 @@
 //Fonts
-$fonts-path: "/fonts";
-$pictures-path: "/img";
+$fonts-path: '/fonts';
+$pictures-path: '/img';
 
-$icomoon-font-path: "/fonts/icomoon/fonts";
+$icomoon-font-path: '/fonts/icomoon/fonts';
 
 // Colors
 $state-colors: (
-  "danger": #dc3545,
-  "warning": #ffc107,
-  "info": #17a2b8,
-  "success": #28a745
+  'danger': #dc3545,
+  'warning': #ffc107,
+  'info': #17a2b8,
+  'success': #28a745
 );
 
 $colors: (
-  "white": #fff,
-  "black": #000,
-  "contrast": #222,
-  "contrast-2": #57575f,
-  "contrast-3": #b2b2be,
-  "base": #f0f0f0,
-  "base-2": #f7f8fa,
-  "base-3": #fff,
-  "accent": #1d73be
+  'white': #fff,
+  'black': #000,
+  'contrast': #222,
+  'contrast-2': #57575f,
+  'contrast-3': #b2b2be,
+  'base': #f0f0f0,
+  'base-2': #f7f8fa,
+  'base-3': #fff,
+  'accent': #1d73be
 );
 
 $fonts: (
-  "title": (
-    "name": "Merriweather",
-    "serif": serif
+  'title': (
+    'name': 'Merriweather',
+    'serif': serif
   ),
-  "text": (
-    "name": "Roboto",
-    "serif": sans-serif
+  'text': (
+    'name': 'Roboto',
+    'serif': sans-serif
   )
 );
 
