@@ -19,13 +19,12 @@
   },
   "scripts": {
     "build": "gatsby build",
-    "develop": "gatsby develop",
+    "watch": "gatsby develop",
     "lint:scss": "npx stylelint --config .stylelintrc.json --allow-empty-input --ignore-path .stylelintignore --fix \"src/scss/**/*.scss\"",
     "lint:js": "npx eslint --config .eslintrc.js --ignore-path .eslintignore --fix \"src/js/**/*\"",
     "prettier:scss": "npx prettier --config .prettierrc.js --ignore-path .prettierignore --write \"src/scss/**/*.scss\"",
     "prettier:js": "npx prettier --config .prettierrc.js --ignore-path .prettierignore --write \"src/js/**/*\"",
     "format": "npm run prettier:scss && npm run lint:scss && npm run prettier:js && npm run lint:js",
-    "watch": "npm run develop",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
@@ -44,6 +43,7 @@
     "gatsby-transformer-sharp": "^5.5.0",
     "html-react-parser": "^3.0.8",
     "lodash": "^4.17.21",
+    "lunr": "^2.3.9",
     "postcss": "^8.4.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

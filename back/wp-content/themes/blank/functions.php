@@ -180,3 +180,8 @@ if ( defined( 'JETPACK__VERSION' ) ) {
  * Gravity Form
  */
 require get_template_directory() . '/inc/gravity-form/rest-api-register.php';
+
+/**
+ * Recherche custom
+ */
+require get_template_directory() . '/inc/search/rest-api-register.php';

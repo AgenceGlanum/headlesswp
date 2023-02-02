@@ -16,12 +16,14 @@ module.exports = {
                 path: `${__dirname}/src/js/pages`
             }
         },
+
         {
             resolve: 'gatsby-plugin-sass',
             options: {
                 postCssPlugins: [autoprefixer()]
             }
         },
+
         {
             /**
              * First up is the WordPress source plugin that connects Gatsby
