@@ -90,11 +90,7 @@ export default function SearchResults({ data }) {
 
                 {/* need double bangs when checking length for thruthyness,
         else react renders a 0 */}
-                {!!query.length && (
-                    <button onClick={() => setQuery('')}>
-                        X
-                    </button>
-                )}
+                {!!query.length && <button onClick={() => setQuery('')}>X</button>}
 
                 <p>
                     {query.length < minCharacters && `Please type at least ${minCharacters} characters`}
