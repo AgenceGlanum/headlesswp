@@ -5,9 +5,9 @@ import React from 'react'
 import Seo from '../components/seo'
 import Layout from '../layout'
 
-const BlogCategoryIndex = ({ data, pageContext: { nextPagePath, previousPagePath } }) => {
+const BlogCategoryIndex = ({ data, pageContext: { nextPagePath, previousPagePath, slug } }) => {
     const posts = data.allWpPost.nodes
-
+    console.log(slug)
     if (!posts.length) {
         return (
             <Layout isHomePage>
@@ -51,7 +51,12 @@ const BlogCategoryIndex = ({ data, pageContext: { nextPagePath, previousPagePath
     )
 }
 
-export const Head = () => <Seo title="All posts" />
+export const Head = ({ pageContext: { slug, name } }) => (
+    <>
+        <body className={`archive__category archive__category--${slug}`} />
+        <Seo title={`All Category ${name} posts`} />
+    </>
+)
 
 export default BlogCategoryIndex
 

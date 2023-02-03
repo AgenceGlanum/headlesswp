@@ -13,7 +13,12 @@ const PageTemplate = ({ data: { page } }) => {
     )
 }
 
-export const Head = ({ data: { page } }) => <Seo title={page.title} seo={page.seo} />
+export const Head = ({ data: { page } }) => (
+    <>
+        <body className={`page__${page.slug}`} />
+        <Seo title={page.title} seo={page.seo} />
+    </>
+)
 
 export default PageTemplate
 
@@ -22,6 +27,7 @@ export const pageQuery = graphql`
         page: wpPage(id: { eq: $id }) {
             id
             title
+            slug
             content
             seo {
                 title

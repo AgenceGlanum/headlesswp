@@ -67,7 +67,12 @@ const BlogPostTemplate = ({ data: { previous, next, post } }) => {
     )
 }
 
-export const Head = ({ data: { post } }) => <Seo title={post.title} />
+export const Head = ({ data: { post } }) => (
+    <>
+        <body className={`post__${post.slug}`} />
+        <Seo title={post.title} />
+    </>
+)
 
 export default BlogPostTemplate
 
@@ -78,6 +83,7 @@ export const pageQuery = graphql`
             excerpt
             content
             title
+            slug
             date(formatString: "MMMM DD, YYYY")
             categories {
                 nodes {

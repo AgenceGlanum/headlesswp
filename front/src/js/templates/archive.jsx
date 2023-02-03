@@ -51,7 +51,12 @@ const BlogIndex = ({ data, pageContext: { nextPagePath, previousPagePath } }) =>
     )
 }
 
-export const Head = () => <Seo title="All posts" />
+export const Head = () => (
+    <>
+        <body className="archive" />
+        <Seo title="All posts" />
+    </>
+)
 
 export default BlogIndex
 

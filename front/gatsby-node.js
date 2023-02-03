@@ -241,6 +241,8 @@ async function createCategoryPages({ categories, gatsbyUtilities }) {
                             // etc
                             offset: index * postsPerPage,
                             termID: _category.category.termTaxonomyId,
+                            slug: _category.category.slug,
+                            name: _category.category.name,
 
                             // We need to tell the template how many posts to display too
                             postsPerPage: postsPerPage,
