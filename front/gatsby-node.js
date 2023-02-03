@@ -26,15 +26,15 @@ exports.createPages = async gatsbyUtilities => {
     // Query our categories from the GraphQL server
     const categories = await getCategories(gatsbyUtilities)
     if (categories.length) {
-        await createCategoryPages({ categories, gatsbyUtilities })
+        await createCategoriesPages({ categories, gatsbyUtilities })
     }
 }
 
 /*
  * Generate pages
  * */
-const createPages = async ({ pages, gatsbyUtilities }) =>
-    Promise.all(
+async function createPages({ pages, gatsbyUtilities }) {
+    return Promise.all(
         pages.map(({ page }) =>
             gatsbyUtilities.actions.createPage({
                 path: page.uri,
@@ -45,6 +45,7 @@ const createPages = async ({ pages, gatsbyUtilities }) =>
             })
         )
     )
+}
 
 // Fetch all pages
 async function getPages({ graphql, reporter }) {
@@ -72,8 +73,8 @@ async function getPages({ graphql, reporter }) {
 /*
  * Generate posts
  * */
-const createIndividualBlogPostPages = async ({ posts, gatsbyUtilities }) =>
-    Promise.all(
+async function createIndividualBlogPostPages({ posts, gatsbyUtilities }) {
+    return Promise.all(
         posts.map(({ previous, post, next }) =>
             // createPage is an action passed to createPages
             // See https://www.gatsbyjs.com/docs/actions#createPage for more info
@@ -100,6 +101,7 @@ const createIndividualBlogPostPages = async ({ posts, gatsbyUtilities }) =>
             })
         )
     )
+}
 
 // Fetch posts
 async function getPosts({ graphql, reporter }) {
@@ -195,7 +197,7 @@ async function createBlogPostArchive({ posts, gatsbyUtilities }) {
 /*
  * Generate categories
  * */
-async function createCategoryPages({ categories, gatsbyUtilities }) {
+async function createCategoriesPages({ categories, gatsbyUtilities }) {
     const graphqlResult = await gatsbyUtilities.graphql(/* GraphQL */ `
         {
             wp {
