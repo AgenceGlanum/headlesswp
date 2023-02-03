@@ -1,4 +1,6 @@
+const wordpressURL = 'http://app.headlesswp.local'
+
 export const variables = {
-    restGFormURL: 'http://app.headlesswp.local/wp-json/headlessgform/v1/gf/forms',
-    restSearchURL: 'http://app.headlesswp.local/wp-json/wp/v2/searchResults'
+    restGFormURL: `${wordpressURL}/wp-json/headlessgform/v1/gf/forms`,
+    restSearchURL: `${wordpressURL}/wp-json/wp/v2/searchResults`
 }
