@@ -3,7 +3,7 @@ import { GatsbyImage } from 'gatsby-plugin-image'
 import parse from 'html-react-parser'
 import React from 'react'
 
-import Bio from '../components/bio'
+import CategoriesTreeLinks from '../components/categories-tree-links'
 import Seo from '../components/seo'
 import Layout from '../layout'
 
@@ -12,6 +12,7 @@ const BlogPostTemplate = ({ data: { previous, next, post } }) => {
         data: post.featuredImage?.node?.localFile?.childImageSharp?.gatsbyImageData,
         alt: post.featuredImage?.node?.alt || ''
     }
+
     const categories = post.categories.nodes
 
     return (
@@ -22,15 +23,7 @@ const BlogPostTemplate = ({ data: { previous, next, post } }) => {
 
                     <p>{post.date}</p>
 
-                    {categories.length && (
-                        <ul>
-                            {categories.map(element => (
-                                <li key={element.id}>
-                                    <a href={element.uri}>{element.name}</a>
-                                </li>
-                            ))}
-                        </ul>
-                    )}
+                    <CategoriesTreeLinks categories={categories} />
 
                     {/* if we have a featured image for this post let's display it */}
                     {featuredImage?.data && <GatsbyImage image={featuredImage.data} alt={featuredImage.alt} style={{ marginBottom: 50 }} />}
@@ -40,9 +33,7 @@ const BlogPostTemplate = ({ data: { previous, next, post } }) => {
 
                 <hr />
 
-                <footer>
-                    <Bio />
-                </footer>
+                <footer></footer>
             </article>
 
             <nav className="blog-post-nav">
@@ -91,6 +82,7 @@ export const pageQuery = graphql`
             categories {
                 nodes {
                     id
+                    parentId
                     taxonomyName
                     name
                     uri

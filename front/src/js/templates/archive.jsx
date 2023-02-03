@@ -2,7 +2,6 @@ import { graphql, Link } from 'gatsby'
 import parse from 'html-react-parser'
 import React from 'react'
 
-import Bio from '../components/bio'
 import Seo from '../components/seo'
 import Layout from '../layout'
 
@@ -12,7 +11,6 @@ const BlogIndex = ({ data, pageContext: { nextPagePath, previousPagePath } }) =>
     if (!posts.length) {
         return (
             <Layout isHomePage>
-                <Bio />
                 <p>No blog posts found. Add posts to your WordPress site and they&#39;ll appear here!</p>
             </Layout>
         )
@@ -20,8 +18,6 @@ const BlogIndex = ({ data, pageContext: { nextPagePath, previousPagePath } }) =>
 
     return (
         <Layout isHomePage>
-            <Bio />
-
             <ol style={{ listStyle: 'none' }}>
                 {posts.map(post => {
                     const title = post.title

@@ -2,7 +2,7 @@
 // and provides it to the child component which will handle the view layer - (searching, filtering, and rendering)
 import React, { useEffect, useState } from 'react'
 
-import { get } from '../common/ajax'
+import { get } from '../common/function-ajax'
 import { variables } from '../common/variables'
 import SearchResults from '../components/search-results'
 import Seo from '../components/seo'
