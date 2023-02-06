@@ -9,24 +9,39 @@ const { dd } = require('dumper.js')
  * See https://www.gatsbyjs.com/docs/node-apis/#createPages for more info.
  */
 exports.createPages = async gatsbyUtilities => {
-    // Query our Pages from the GraphQL server
     const pages = await getPages(gatsbyUtilities)
     // dd(pages)
     if (pages.length) {
         await createPages({ pages, gatsbyUtilities })
     }
 
-    // Query our posts from the GraphQL server
     const posts = await getPosts(gatsbyUtilities)
     if (posts.length) {
-        await createIndividualBlogPostPages({ posts, gatsbyUtilities })
-        await createBlogPostArchive({ posts, gatsbyUtilities })
+        await createIndividualBlogPostPages(posts, gatsbyUtilities)
+        await createBlogPostArchive(posts, gatsbyUtilities)
     }
 
-    // Query our categories from the GraphQL server
     const categories = await getCategories(gatsbyUtilities)
     if (categories.length) {
         await createCategoriesPages({ categories, gatsbyUtilities })
+    }
+
+    const emploiPosts = await getPosts(gatsbyUtilities, 'emploi')
+    if (emploiPosts.length) {
+        await createIndividualBlogPostPages(emploiPosts, gatsbyUtilities, 'emploi')
+        await createBlogPostArchive(emploiPosts, gatsbyUtilities, 'emploi')
+    }
+
+    const formationPosts = await getPosts(gatsbyUtilities, 'formation')
+    if (formationPosts.length) {
+        await createIndividualBlogPostPages(formationPosts, gatsbyUtilities, 'formation')
+        await createBlogPostArchive(formationPosts, gatsbyUtilities, 'formation')
+    }
+
+    const metierPosts = await getPosts(gatsbyUtilities, 'metier')
+    if (metierPosts.length) {
+        await createIndividualBlogPostPages(metierPosts, gatsbyUtilities, 'metier')
+        await createBlogPostArchive(metierPosts, gatsbyUtilities, 'metier')
     }
 }
 
@@ -73,7 +88,11 @@ async function getPages({ graphql, reporter }) {
 /*
  * Generate posts
  * */
-async function createIndividualBlogPostPages({ posts, gatsbyUtilities }) {
+async function createIndividualBlogPostPages(posts, gatsbyUtilities, postType) {
+    if (!postType) {
+        postType = 'post'
+    }
+
     return Promise.all(
         posts.map(({ previous, post, next }) =>
             // createPage is an action passed to createPages
@@ -84,7 +103,7 @@ async function createIndividualBlogPostPages({ posts, gatsbyUtilities }) {
                 path: post.uri,
 
                 // use the blog post template as the page component
-                component: path.resolve('./src/js/templates/post.jsx'),
+                component: postType === 'post' ? path.resolve('./src/js/templates/post.jsx') : path.resolve(`./src/js/templates/post-${postType}.jsx`),
 
                 // `context` is available in the template as a prop and
                 // as a variable in GraphQL.
@@ -93,6 +112,7 @@ async function createIndividualBlogPostPages({ posts, gatsbyUtilities }) {
                     // so our blog post template knows which blog post
                     // the current page is (when you open it in a browser)
                     id: post.id,
+                    postType: postType,
 
                     // We also use the next and previous id's to query them and add links!
                     previousPostId: previous ? previous.id : null,
@@ -104,10 +124,16 @@ async function createIndividualBlogPostPages({ posts, gatsbyUtilities }) {
 }
 
 // Fetch posts
-async function getPosts({ graphql, reporter }) {
+async function getPosts({ graphql, reporter }, postType) {
+    if (!postType) {
+        postType = 'post'
+    }
+
+    const postTypeUpper = postType.charAt(0).toUpperCase() + postType.slice(1)
+
     const graphqlResult = await graphql(/* GraphQL */ `
         query WpPosts {
-            allWpPost(sort: { date: DESC }) {
+            allWp${postTypeUpper}(sort: { date: DESC }) {
                 edges {
                     previous {
                         id
@@ -129,13 +155,17 @@ async function getPosts({ graphql, reporter }) {
         return
     }
 
-    return graphqlResult.data.allWpPost.edges
+    return graphqlResult.data[`allWp${postTypeUpper}`].edges
 }
 
 /*
  * Generate archives
  * */
-async function createBlogPostArchive({ posts, gatsbyUtilities }) {
+async function createBlogPostArchive(posts, gatsbyUtilities, postType) {
+    if (!postType) {
+        postType = 'post'
+    }
+
     const graphqlResult = await gatsbyUtilities.graphql(/* GraphQL */ `
         {
             wp {
@@ -161,7 +191,11 @@ async function createBlogPostArchive({ posts, gatsbyUtilities }) {
                     // we want the first page to be "/" and any additional pages
                     // to be numbered.
                     // "/blog/2" for example
-                    return page === 1 ? '/' : `/blog/${page}`
+                    if (postType === 'post') {
+                        return page === 1 ? '/' : `/blog/${page}`
+                    } else {
+                        return page === 1 ? `/${postType}` : `/${postType}/${page}`
+                    }
                 }
 
                 return null
@@ -173,7 +207,7 @@ async function createBlogPostArchive({ posts, gatsbyUtilities }) {
                 path: getPagePath(pageNumber),
 
                 // use the blog post archive template as the page component
-                component: path.resolve('./src/js/templates/archive.jsx'),
+                component: postType === 'post' ? path.resolve('./src/js/templates/archive.jsx') : path.resolve(`./src/js/templates/archive-${postType}.jsx`),
 
                 // `context` is available in the template as a prop and
                 // as a variable in GraphQL.
@@ -182,6 +216,7 @@ async function createBlogPostArchive({ posts, gatsbyUtilities }) {
                     // so for page 1, 0 * 10 = 0 offset, for page 2, 1 * 10 = 10 posts offset,
                     // etc
                     offset: index * postsPerPage,
+                    postType: postType,
 
                     // We need to tell the template how many posts to display too
                     postsPerPage: postsPerPage,

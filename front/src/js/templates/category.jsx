@@ -7,7 +7,7 @@ import Layout from '../layout'
 
 const BlogCategoryIndex = ({ data, pageContext: { nextPagePath, previousPagePath, slug } }) => {
     const posts = data.allWpPost.nodes
-    console.log(slug)
+
     if (!posts.length) {
         return (
             <Layout isHomePage>

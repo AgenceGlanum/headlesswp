@@ -7,7 +7,7 @@ import Seo from '../components/seo'
 import TermsTreeLinks from '../components/terms-tree-links'
 import Layout from '../layout'
 
-const BlogPostTemplate = ({ data: { previous, next, post } }) => {
+const PostFormation = ({ data: { previous, next, post } }) => {
     const featuredImage = {
         data: post.featuredImage?.node?.localFile?.childImageSharp?.gatsbyImageData,
         alt: post.featuredImage?.node?.alt || ''
@@ -67,25 +67,25 @@ const BlogPostTemplate = ({ data: { previous, next, post } }) => {
     )
 }
 
-export const Head = ({ data: { post } }) => (
+export const Head = ({ data: { post }, pageContext: { postType } }) => (
     <>
-        <body className="post" />
+        <body className={`post post--${postType}`} />
         <Seo title={post.title} />
     </>
 )
 
-export default BlogPostTemplate
+export default PostFormation
 
 export const pageQuery = graphql`
     query BlogPostById($id: String!, $previousPostId: String, $nextPostId: String) {
-        post: wpPost(id: { eq: $id }) {
+        post: wpFormation(id: { eq: $id }) {
             id
             excerpt
             content
             title
             slug
             date(formatString: "MMMM DD, YYYY")
-            terms: categories {
+            terms: competences {
                 nodes {
                     id
                     parentId
@@ -124,11 +124,11 @@ export const pageQuery = graphql`
                 }
             }
         }
-        previous: wpPost(id: { eq: $previousPostId }) {
+        previous: wpFormation(id: { eq: $previousPostId }) {
             uri
             title
         }
-        next: wpPost(id: { eq: $nextPostId }) {
+        next: wpFormation(id: { eq: $nextPostId }) {
             uri
             title
         }

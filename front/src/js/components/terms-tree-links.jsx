@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { sortCategories } from '../common/function-sort-categories'
+import { sortTerms } from '../common/function-sort-terms'
 
 const getListItems = dataset => {
     // Create a string containing the items for this list
@@ -26,14 +26,14 @@ const getTreeStrucureTemplate = dataset => {
     }
 }
 
-const CategoriesTreeLinks = ({ categories }) => {
-    const categoriesSortedArray = categories.length ? sortCategories(categories) : []
+const TermsTreeLinks = ({ terms }) => {
+    const termsSortedArray = terms.length ? sortTerms(terms) : []
 
-    if (categoriesSortedArray.length) {
-        return <nav dangerouslySetInnerHTML={{ __html: getTreeStrucureTemplate(categoriesSortedArray) }} />
+    if (termsSortedArray.length) {
+        return <nav dangerouslySetInnerHTML={{ __html: getTreeStrucureTemplate(termsSortedArray) }} />
     } else {
         return null
     }
 }
 
-export default CategoriesTreeLinks
+export default TermsTreeLinks

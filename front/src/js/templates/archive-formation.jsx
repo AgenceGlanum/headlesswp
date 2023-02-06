@@ -5,7 +5,7 @@ import React from 'react'
 import Seo from '../components/seo'
 import Layout from '../layout'
 
-const BlogIndex = ({ data, pageContext: { nextPagePath, previousPagePath } }) => {
+const ArchiveFormation = ({ data, pageContext: { nextPagePath, previousPagePath } }) => {
     const posts = data.posts.nodes
 
     if (!posts.length) {
@@ -51,18 +51,18 @@ const BlogIndex = ({ data, pageContext: { nextPagePath, previousPagePath } }) =>
     )
 }
 
-export const Head = () => (
+export const Head = ({ pageContext: { postType } }) => (
     <>
-        <body className="archive" />
-        <Seo title="All posts" />
+        <body className={`archive archive--${postType}`} />
+        <Seo title={`All ${postType} posts`} />
     </>
 )
 
-export default BlogIndex
+export default ArchiveFormation
 
 export const pageQuery = graphql`
     query WordPressPostArchive($postsPerPage: Int!, $offset: Int!) {
-        posts: allWpPost(sort: { date: DESC }, limit: $postsPerPage, skip: $offset) {
+        posts: allWpFormation(sort: { date: DESC }, limit: $postsPerPage, skip: $offset) {
             nodes {
                 excerpt
                 uri
