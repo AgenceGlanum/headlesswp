@@ -1,12 +1,12 @@
-import { graphql, Link } from 'gatsby'
+import { Link, graphql } from 'gatsby'
 import parse from 'html-react-parser'
 import React from 'react'
 
 import Seo from '../components/seo'
 import Layout from '../layout'
 
-const BlogCategoryIndex = ({ data, pageContext: { nextPagePath, previousPagePath, slug } }) => {
-    const posts = data.allWpPost.nodes
+const TaxoCompetenceTerm = ({ data, pageContext: { nextPagePath, previousPagePath, slug } }) => {
+    const posts = [...data.allWpEmploi.nodes, ...data.allWpFormation.nodes, ...data.allWpMetier.nodes]
 
     if (!posts.length) {
         return (
@@ -53,16 +53,34 @@ const BlogCategoryIndex = ({ data, pageContext: { nextPagePath, previousPagePath
 
 export const Head = ({ pageContext: { slug, name } }) => (
     <>
-        <body className={`archive__category archive__category--${slug}`} />
-        <Seo title={`All Category ${name} posts`} />
+        <body className={`taxonomy-term taxonomy-term--${slug}`} />
+        <Seo title={`All ${name} posts`} />
     </>
 )
 
-export default BlogCategoryIndex
+export default TaxoCompetenceTerm
 
 export const pageQuery = graphql`
-    query WordPressPostCategory($postsPerPage: Int!, $offset: Int!, $termID: Int!) {
-        allWpPost(sort: { date: DESC }, limit: $postsPerPage, skip: $offset, filter: { terms: { nodes: { elemMatch: { id: {}, termTaxonomyId: { eq: $termID } } } } }) {
+    query WordPressPostTerms($postsPerPage: Int!, $offset: Int!, $termID: Int!) {
+        allWpEmploi(sort: { date: DESC }, limit: $postsPerPage, skip: $offset, filter: { terms: { nodes: { elemMatch: { id: {}, termTaxonomyId: { eq: $termID } } } } }) {
+            nodes {
+                excerpt
+                uri
+                date(formatString: "MMMM DD, YYYY")
+                title
+                excerpt
+            }
+        }
+        allWpFormation(sort: { date: DESC }, limit: $postsPerPage, skip: $offset, filter: { terms: { nodes: { elemMatch: { id: {}, termTaxonomyId: { eq: $termID } } } } }) {
+            nodes {
+                excerpt
+                uri
+                date(formatString: "MMMM DD, YYYY")
+                title
+                excerpt
+            }
+        }
+        allWpMetier(sort: { date: DESC }, limit: $postsPerPage, skip: $offset, filter: { terms: { nodes: { elemMatch: { id: {}, termTaxonomyId: { eq: $termID } } } } }) {
             nodes {
                 excerpt
                 uri

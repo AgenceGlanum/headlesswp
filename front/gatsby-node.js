@@ -21,11 +21,16 @@ exports.createPages = async gatsbyUtilities => {
         await createBlogPostArchive(posts, gatsbyUtilities)
     }
 
-    const categories = await getCategories(gatsbyUtilities)
-    if (categories.length) {
-        await createCategoriesPages({ categories, gatsbyUtilities })
+    const categoryTerms = await getTaxonomyTerms(gatsbyUtilities, 'category', ['posts'])
+    if (categoryTerms.length) {
+        await createTaxonomyTermsPages(categoryTerms, gatsbyUtilities, 'category', ['posts'])
     }
 
+    const competenceTerms = await getTaxonomyTerms(gatsbyUtilities, 'competence', ['emplois', 'formations', 'metiers'])
+    if (competenceTerms.length) {
+        await createTaxonomyTermsPages(competenceTerms, gatsbyUtilities, 'competence', ['emplois', 'formations', 'metiers'])
+    }
+    
     const emploiPosts = await getPosts(gatsbyUtilities, 'emploi')
     if (emploiPosts.length) {
         await createIndividualBlogPostPages(emploiPosts, gatsbyUtilities, 'emploi')
@@ -86,7 +91,7 @@ async function getPages({ graphql, reporter }) {
 }
 
 /*
- * Generate posts
+ * Generate posts pages
  * */
 async function createIndividualBlogPostPages(posts, gatsbyUtilities, postType) {
     if (!postType) {
@@ -159,7 +164,7 @@ async function getPosts({ graphql, reporter }, postType) {
 }
 
 /*
- * Generate archives
+ * Generate archives pages
  * */
 async function createBlogPostArchive(posts, gatsbyUtilities, postType) {
     if (!postType) {
@@ -230,9 +235,9 @@ async function createBlogPostArchive(posts, gatsbyUtilities, postType) {
 }
 
 /*
- * Generate categories
+ * Generate taxonomy terms pages
  * */
-async function createCategoriesPages({ categories, gatsbyUtilities }) {
+async function createTaxonomyTermsPages(terms, gatsbyUtilities, taxonomy, postsTypeNames) {
     const graphqlResult = await gatsbyUtilities.graphql(/* GraphQL */ `
         {
             wp {
@@ -246,74 +251,88 @@ async function createCategoriesPages({ categories, gatsbyUtilities }) {
     const { postsPerPage } = graphqlResult.data.wp.readingSettings
 
     return Promise.all(
-        categories.map(async (_category, index) => {
-            const postsChunkedIntoArchivePages = chunk(_category.category.posts.nodes, postsPerPage)
-            const totalPages = postsChunkedIntoArchivePages.length
+        terms.map(async (term, index) => {
+            if (postsTypeNames.length) {
+                postsTypeNames.forEach(postsTypeName => {
+                    const postsChunkedIntoArchivePages = chunk(term[taxonomy][postsTypeName].nodes, postsPerPage)
+                    const totalPages = postsChunkedIntoArchivePages.length
 
-            Promise.all(
-                postsChunkedIntoArchivePages.map(async (_posts, index) => {
-                    const pageNumber = index + 1
+                    Promise.all(
+                        postsChunkedIntoArchivePages.map(async (_posts, index) => {
+                            const pageNumber = index + 1
 
-                    const getPagePath = page => {
-                        if (page > 0 && page <= totalPages) {
-                            return page === 1 ? _category.category.uri : `${_category.category.uri}${page}`
-                        }
+                            const getPagePath = page => {
+                                if (page > 0 && page <= totalPages) {
+                                    return page === 1 ? term[taxonomy].uri : `${term[taxonomy].uri}${page}`
+                                }
 
-                        return null
-                    }
+                                return null
+                            }
 
-                    // createPage is an action passed to createPages
-                    // See https://www.gatsbyjs.com/docs/actions#createPage for more info
-                    await gatsbyUtilities.actions.createPage({
-                        path: getPagePath(pageNumber),
+                            // createPage is an action passed to createPages
+                            // See https://www.gatsbyjs.com/docs/actions#createPage for more info
+                            await gatsbyUtilities.actions.createPage({
+                                path: getPagePath(pageNumber),
 
-                        // use the blog post archive template as the page component
-                        component: path.resolve('./src/js/templates/category.jsx'),
+                                // use the blog post archive template as the page component
+                                component: path.resolve(`./src/js/templates/taxonomy-${taxonomy}.jsx`),
 
-                        // `context` is available in the template as a prop and
-                        // as a variable in GraphQL.
-                        context: {
-                            // the index of our loop is the offset of which posts we want to display
-                            // so for page 1, 0 * 10 = 0 offset, for page 2, 1 * 10 = 10 posts offset,
-                            // etc
-                            offset: index * postsPerPage,
-                            termID: _category.category.termTaxonomyId,
-                            slug: _category.category.slug,
-                            name: _category.category.name,
+                                // `context` is available in the template as a prop and
+                                // as a variable in GraphQL.
+                                context: {
+                                    // the index of our loop is the offset of which posts we want to display
+                                    // so for page 1, 0 * 10 = 0 offset, for page 2, 1 * 10 = 10 posts offset,
+                                    // etc
+                                    offset: index * postsPerPage,
+                                    termID: term[taxonomy].termTaxonomyId,
+                                    slug: term[taxonomy].slug,
+                                    name: term[taxonomy].name,
 
-                            // We need to tell the template how many posts to display too
-                            postsPerPage: postsPerPage,
+                                    // We need to tell the template how many posts to display too
+                                    postsPerPage: postsPerPage,
 
-                            nextPagePath: getPagePath(pageNumber + 1),
-                            previousPagePath: getPagePath(pageNumber - 1)
-                        }
-                    })
+                                    nextPagePath: getPagePath(pageNumber + 1),
+                                    previousPagePath: getPagePath(pageNumber - 1)
+                                }
+                            })
+                        })
+                    )
                 })
-            )
+            }
         })
     )
 }
 
-// Fetch categories
-async function getCategories({ graphql, reporter }) {
+// Fetch taxonomy terms
+async function getTaxonomyTerms({ graphql, reporter }, taxonomy, postsTypeNames) {
+    const taxonomyUpper = taxonomy.replace(/(.)([^-_|$]*)[-_]*/g, (_, letter, word) => `${letter.toUpperCase()}${word.toLowerCase()}`)
+
+    let postTypeString = ''
+    if (postsTypeNames.length) {
+        postsTypeNames.forEach(postTypeName => {
+            postTypeString += `${postTypeName} {
+                nodes {
+                    id
+                }
+            }`
+        })
+    }
+
+
     const graphqlResult = await graphql(/* GraphQL */ `
-        query WpCategories {
-            allWpCategory {
+        query WpTaxonomy {
+            allWp${taxonomyUpper} {
                 edges {
                     previous {
                         id
                     }
-                    category: node {
+                    ${taxonomy}: node {
                         id
                         name
                         uri
                         slug
                         termTaxonomyId
-                        posts {
-                            nodes {
-                                id
-                            }
-                        }
+                        ${postTypeString}
                     }
                     next {
                         id
@@ -328,5 +347,5 @@ async function getCategories({ graphql, reporter }) {
         return
     }
 
-    return graphqlResult.data.allWpCategory.edges
+    return graphqlResult.data[`allWp${taxonomyUpper}`].edges
 }
