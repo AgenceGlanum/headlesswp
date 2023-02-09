@@ -10,7 +10,7 @@ const NotFoundPage = ({ data, location }) => {
             <h1>404</h1>
             <div className="img-wrapper">
                 {/* https://dribbble.com/shots/14638411-Illustration-for-Joom-404-page-Concept */}
-                <img src="./img/404.webp" alt="404 picture" />
+                <img src={'/img/404.webp'} alt="404 picture" />
             </div>
 
             <p>
