@@ -15,10 +15,10 @@ exports.createPages = async gatsbyUtilities => {
         await createPages({ pages, gatsbyUtilities })
     }
 
-    const posts = await getPosts(gatsbyUtilities)
+    const posts = await getPosts(gatsbyUtilities, 'post')
     if (posts.length) {
-        await createIndividualBlogPostPages(posts, gatsbyUtilities)
-        await createBlogPostArchive(posts, gatsbyUtilities)
+        await createIndividualBlogPostPages(posts, gatsbyUtilities, 'post')
+        await createBlogPostArchive(posts, gatsbyUtilities, 'post')
     }
 
     const categoryTerms = await getTaxonomyTerms(gatsbyUtilities, 'category', ['posts'])
@@ -30,7 +30,7 @@ exports.createPages = async gatsbyUtilities => {
     if (competenceTerms.length) {
         await createTaxonomyTermsPages(competenceTerms, gatsbyUtilities, 'competence', ['emplois', 'formations', 'metiers'])
     }
-    
+
     const emploiPosts = await getPosts(gatsbyUtilities, 'emploi')
     if (emploiPosts.length) {
         await createIndividualBlogPostPages(emploiPosts, gatsbyUtilities, 'emploi')
@@ -130,10 +130,6 @@ async function createIndividualBlogPostPages(posts, gatsbyUtilities, postType) {
 
 // Fetch posts
 async function getPosts({ graphql, reporter }, postType) {
-    if (!postType) {
-        postType = 'post'
-    }
-
     const postTypeUpper = postType.charAt(0).toUpperCase() + postType.slice(1)
 
     const graphqlResult = await graphql(/* GraphQL */ `
@@ -167,10 +163,6 @@ async function getPosts({ graphql, reporter }, postType) {
  * Generate archives pages
  * */
 async function createBlogPostArchive(posts, gatsbyUtilities, postType) {
-    if (!postType) {
-        postType = 'post'
-    }
-
     const graphqlResult = await gatsbyUtilities.graphql(/* GraphQL */ `
         {
             wp {
