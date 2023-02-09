@@ -1,11 +1,11 @@
-import { Link, graphql } from 'gatsby'
+import { graphql, Link } from 'gatsby'
 import parse from 'html-react-parser'
 import React from 'react'
 
 import Seo from '../components/seo'
 import Layout from '../layout'
 
-const TaxoCategoryTerm = ({ data, pageContext: { nextPagePath, previousPagePath, slug } }) => {
+const TaxoCategoryTemplate = ({ data, pageContext: { nextPagePath, previousPagePath, slug } }) => {
     const posts = data.allWpPost.nodes
 
     if (!posts.length) {
@@ -53,12 +53,12 @@ const TaxoCategoryTerm = ({ data, pageContext: { nextPagePath, previousPagePath,
 
 export const Head = ({ pageContext: { slug, name } }) => (
     <>
-        <body className={`taxonomy-term taxonomy-term--${slug}`} />
+        <body className={`taxonomy taxonomy--${slug}`} />
         <Seo title={`All ${name} posts`} />
     </>
 )
 
-export default TaxoCategoryTerm
+export default TaxoCategoryTemplate
 
 export const pageQuery = graphql`
     query WordPressPostTerms($postsPerPage: Int!, $offset: Int!, $termID: Int!) {

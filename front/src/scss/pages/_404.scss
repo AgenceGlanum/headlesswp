@@ -1,0 +1,13 @@
+body.not-found {
+  main.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .img-wrapper {
+      width: 600px;
+      max-width: 100%;
+    }
+  }
+}

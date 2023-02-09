@@ -5,7 +5,7 @@ import React from 'react'
 import Seo from '../components/seo'
 import Layout from '../layout'
 
-const BlogIndex = ({ data, pageContext: { nextPagePath, previousPagePath } }) => {
+const ArchiveTemplate = ({ data, pageContext: { nextPagePath, previousPagePath } }) => {
     const posts = data.posts.nodes
 
     if (!posts.length) {
@@ -58,7 +58,7 @@ export const Head = () => (
     </>
 )
 
-export default BlogIndex
+export default ArchiveTemplate
 
 export const pageQuery = graphql`
     query WordPressPostArchive($postsPerPage: Int!, $offset: Int!) {

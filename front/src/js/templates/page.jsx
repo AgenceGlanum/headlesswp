@@ -15,7 +15,7 @@ const PageTemplate = ({ data: { page } }) => {
 
 export const Head = ({ data: { page } }) => (
     <>
-        <body className={`page__${page.slug}`} />
+        <body className={`page page--${page.slug}`} />
         <Seo title={page.title} seo={page.seo} />
     </>
 )

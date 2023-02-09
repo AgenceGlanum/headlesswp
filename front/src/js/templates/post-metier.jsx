@@ -7,7 +7,7 @@ import Seo from '../components/seo'
 import TermsTreeLinks from '../components/terms-tree-links'
 import Layout from '../layout'
 
-const PostMetier = ({ data: { previous, next, post } }) => {
+const PostMetierTemplate = ({ data: { previous, next, post } }) => {
     const featuredImage = {
         data: post.featuredImage?.node?.localFile?.childImageSharp?.gatsbyImageData,
         alt: post.featuredImage?.node?.alt || ''
@@ -74,7 +74,7 @@ export const Head = ({ data: { post }, pageContext: { postType } }) => (
     </>
 )
 
-export default PostMetier
+export default PostMetierTemplate
 
 export const pageQuery = graphql`
     query BlogPostById($id: String!, $previousPostId: String, $nextPostId: String) {

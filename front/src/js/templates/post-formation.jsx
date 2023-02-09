@@ -7,7 +7,7 @@ import Seo from '../components/seo'
 import TermsTreeLinks from '../components/terms-tree-links'
 import Layout from '../layout'
 
-const PostFormation = ({ data: { previous, next, post } }) => {
+const PostFormationTemplate = ({ data: { previous, next, post } }) => {
     const featuredImage = {
         data: post.featuredImage?.node?.localFile?.childImageSharp?.gatsbyImageData,
         alt: post.featuredImage?.node?.alt || ''
@@ -74,7 +74,7 @@ export const Head = ({ data: { post }, pageContext: { postType } }) => (
     </>
 )
 
-export default PostFormation
+export default PostFormationTemplate
 
 export const pageQuery = graphql`
     query BlogPostById($id: String!, $previousPostId: String, $nextPostId: String) {

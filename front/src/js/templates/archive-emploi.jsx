@@ -5,7 +5,7 @@ import React from 'react'
 import Seo from '../components/seo'
 import Layout from '../layout'
 
-const ArchiveEmploi = ({ data, pageContext: { nextPagePath, previousPagePath } }) => {
+const ArchiveEmploiTemplate = ({ data, pageContext: { nextPagePath, previousPagePath } }) => {
     const posts = data.posts.nodes
 
     if (!posts.length) {
@@ -58,7 +58,7 @@ export const Head = ({ pageContext: { postType } }) => (
     </>
 )
 
-export default ArchiveEmploi
+export default ArchiveEmploiTemplate
 
 export const pageQuery = graphql`
     query WordPressPostArchive($postsPerPage: Int!, $offset: Int!) {
